@@ -42,8 +42,8 @@ public class ConnectN {
      * @return true if the n value is valid, false otherwise
      */
     public static boolean checkN(final int width, final int height, final int toCheck) {
-        if (checkWidth(width) && checkHeight(height)) {
-            if ((toCheck < width || toCheck < height) && toCheck >= MIN_N) {
+        if (checkWidth(width) && checkHeight(height) && toCheck >= MIN_N) {
+            if (toCheck < width || toCheck < height) {
                 return true;
             }
         }
@@ -79,6 +79,9 @@ public class ConnectN {
     /** Whether the game has started. */
     private boolean started;
 
+    /** Whether the game has ended. */
+    private boolean ended;
+
     /** Numbers of movements. */
     private static int movement;
 
@@ -98,7 +101,7 @@ public class ConnectN {
      * @return true if the width was set successfully, false on error
      */
     public boolean setWidth(final int setWidth) {
-        if (started == true) {
+        if (started) {
             return false;
         }
         if (!checkWidth(setWidth)) {
@@ -130,7 +133,7 @@ public class ConnectN {
      * @return true if the height was set successfully, false on error
      */
     public boolean setHeight(final int setHeight) {
-        if (started == true) {
+        if (started) {
             return false;
         }
         if (!checkHeight(setHeight)) {
@@ -162,7 +165,7 @@ public class ConnectN {
      * @return true if N was set successfully, false otherwise
      */
     public boolean setN(final int newN) {
-        if (started == true) {
+        if (started) {
             return false;
         }
         if (!checkN(getWidth(), getHeight(), newN)) {
@@ -190,6 +193,7 @@ public class ConnectN {
         }
         board = new Player[width][height];
         started = false;
+        ended = false;
     }
 
     /**
@@ -197,6 +201,7 @@ public class ConnectN {
      */
     public ConnectN() {
         started = false;
+        ended = false;
     }
 
     /**
@@ -214,6 +219,7 @@ public class ConnectN {
         }
         board = new Player[width][height];
         started = false;
+        ended = false;
     }
 
     /**
@@ -227,6 +233,7 @@ public class ConnectN {
         n = otherBoard.getN();
         board = new Player[width][height];
         started = false;
+        ended = false;
     }
 
 
@@ -240,6 +247,9 @@ public class ConnectN {
      * @return true if the move succeeds, false on error
      */
     public boolean setBoardAt(final Player player, final int setX, final int setY) {
+        if (ended) {
+            return false;
+        }
         if (setX < 0 || setX >= width || setY < 0 || setY >= height) {
             return false;
         }
@@ -265,6 +275,9 @@ public class ConnectN {
      * @return true if the move succeeds, false on error
      * */
     public boolean setBoardAt(final Player player, final int setX) {
+        if (ended) {
+            return false;
+        }
         if (setX < 0 || setX >= width) {
             return false;
         }
@@ -320,6 +333,65 @@ public class ConnectN {
      * @return the winner of the game, or null if the game has not ended
      */
     public Player getWinner() {
+        Player[] temp = new Player[getN()];
+        boolean possible;
+        if (!checkWidth(getWidth()) || !checkHeight(getHeight()) || !checkN(getWidth(), getHeight(), getN())) {
+            return null;
+        }
+        if (getN() < getWidth()) {
+            for (int i = 0; i < getWidth() - getN(); i++) {
+                for (int j = 0; j < getHeight(); j++) {
+                    possible = true;
+                    for (int k = 0; k < getN(); k++) {
+                        if (getBoardAt(i + k, j) == null) {
+                            possible = false;
+                        } else {
+                            temp[k] = getBoardAt(i + k, j);
+                        }
+                    }
+                    if (possible) {
+                        boolean allEqual = true;
+                        for (int k = 0; k < getN() - 1; k++) {
+                            if (!temp[k].equals(temp[k + 1])) {
+                                allEqual = false;
+                            }
+                        }
+                        if (allEqual) {
+                            ended = true;
+                            temp[0].addScore();
+                            return temp[0];
+                        }
+                    }
+                }
+            }
+        }
+        if (getN() < getHeight()) {
+            for (int i = 0; i < getWidth(); i++) {
+                for (int j = 0; j < getHeight() - getN(); j++) {
+                    possible = true;
+                    for (int k = 0; k < getN(); k++) {
+                        if (getBoardAt(i, j + k) == null) {
+                            possible = false;
+                        } else {
+                            temp[k] = getBoardAt(i, j + k);
+                        }
+                    }
+                    if (possible) {
+                        boolean allEqual = true;
+                        for (int k = 0; k < getN() - 1; k++) {
+                            if (!temp[k].equals(temp[k + 1])) {
+                                allEqual = false;
+                            }
+                        }
+                        if (allEqual) {
+                            ended = true;
+                            temp[0].addScore();
+                            return temp[0];
+                        }
+                    }
+                }
+            }
+        }
         return null;
     }
 
@@ -350,7 +422,23 @@ public class ConnectN {
      * @return an array of new ConnectN instances, or null if the parameters are invalid
      * */
     public static ConnectN[] createMany(final int number, final int width, final int height, final int n) {
-        return null;
+        ConnectN[] boards;
+        if (number == 0) {
+            return null;
+        }
+        if (checkWidth(width) && checkHeight(height)) {
+            if (checkN(width, height, n)) {
+                boards = new ConnectN[number];
+                for (int i = 0; i < number; i++) {
+                    boards[i] = new ConnectN(width, height, n);
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+        return boards;
     }
 
     /**
@@ -361,8 +449,32 @@ public class ConnectN {
      * @return true if the boards are the same, false otherwise
      * */
     public static boolean compareBoards(final ConnectN firstBoard, final ConnectN secondBoard) {
-        boolean same = true;
-        return false;
+        if (firstBoard == null || secondBoard == null) {
+            return false;
+        }
+        if (firstBoard.getWidth() != secondBoard.getWidth() || firstBoard.getHeight() != secondBoard.getHeight()) {
+            return false;
+        }
+        if (firstBoard.getN() != secondBoard.getN()) {
+            return false;
+        }
+        for (int i = 0; i < firstBoard.getWidth(); i++) {
+            for (int j = 0; j < firstBoard.getHeight(); j++) {
+                if (firstBoard.getBoardAt(i, j) == null) {
+                    if (!(secondBoard.getBoardAt(i, j) == null)) {
+                        return false;
+                    }
+                } else {
+                    if (secondBoard.getBoardAt(i, j) == null) {
+                        return false;
+                    }
+                    if (!(firstBoard.getBoardAt(i, j).equals(secondBoard.getBoardAt(i, j)))) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -372,7 +484,12 @@ public class ConnectN {
      * @return true if all passed boards are the same, false otherwise
      * */
     public static boolean compareBoards(final ConnectN... boards) {
-        return false;
+        for (int i = 0; i < boards.length - 1; i++) {
+            if (!compareBoards(boards[i], boards[i + 1])) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
