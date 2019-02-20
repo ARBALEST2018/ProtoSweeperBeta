@@ -9,7 +9,7 @@ package edu.illinois.cs.cs125.spring2019.mp2.lib;
  * @see <a href="https://cs125.cs.illinois.edu/MP/2/">MP2 Documentation</a>
  */
 public class Player {
-    /* Class variable that we used to generate a unique ID for each newly created player. */
+    /** Class variable that we used to generate a unique ID for each newly created player. */
     private static int globalID = 0;
 
     /** This player's name. */
