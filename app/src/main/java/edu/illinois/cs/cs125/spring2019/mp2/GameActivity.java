@@ -307,6 +307,18 @@ public final class GameActivity extends AppCompatActivity {
     }
 
     /**
+     * Perform when any tile is clicked.
+     *
+     * @param first - the first integer that passed in
+     * @param second - the second integer that passed in
+     */
+    void tileClicked(final int first, final int second) {
+        if (tryPlayAt(first, second)) {
+            updateDisplay();
+        }
+    }
+
+    /**
      * Gets the array index for the player who is not currently to move.
      *
      * @return 0 if it's Player 2's turn now, 1 otherwise.
@@ -415,6 +427,14 @@ public final class GameActivity extends AppCompatActivity {
             for (View v : toPlayLabels) {
                 v.setVisibility(View.GONE);
             }
+            ((TextView) findViewById(R.id.winner)).setText(winner.getName() + " wins!");
+            if (winner.equals(players[0])) {
+                winnerLabel.setTextColor(getColor(R.color.player1Color));
+            } else {
+                winnerLabel.setTextColor(getColor(R.color.player2Color));
+            }
+
+            winnerLabel.setVisibility(View.VISIBLE);
         }
 
         // Update player scores.
