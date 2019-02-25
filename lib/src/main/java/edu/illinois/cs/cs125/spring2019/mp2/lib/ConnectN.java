@@ -19,7 +19,7 @@ public class ConnectN {
      * @param toCheck - the width value to check
      * @return true if the width value is valid, false otherwise
      */
-    public static boolean checkWidth(final int toCheck) {
+    private static boolean checkWidth(final int toCheck) {
         return (toCheck >= MIN_WIDTH && toCheck <= MAX_WIDTH);
     }
 
@@ -29,7 +29,7 @@ public class ConnectN {
      * @param toCheck - the height value to check
      * @return true if the height value is valid, false otherwise
      */
-    public static boolean checkHeight(final int toCheck) {
+    private static boolean checkHeight(final int toCheck) {
         return (toCheck >= MIN_HEIGHT && toCheck <= MAX_HEIGHT);
     }
 
@@ -41,7 +41,7 @@ public class ConnectN {
      * @param toCheck the n value to check
      * @return true if the n value is valid, false otherwise
      */
-    public static boolean checkN(final int width, final int height, final int toCheck) {
+    private static boolean checkN(final int width, final int height, final int toCheck) {
         if (checkWidth(width) && checkHeight(height) && toCheck >= MIN_N) {
             if (toCheck < width || toCheck < height) {
                 return true;
