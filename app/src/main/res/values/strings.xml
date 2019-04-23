@@ -1,26 +1,32 @@
 <resources>
-    <string name="app_name">CS 125 MP2</string>
+    <string name="app_name">Proto Sweeper</string>
+    <string name="mines_left">mines left</string>
+    <string name="you_win">You win !!</string>
+    <string name="you_lose">You lose!!</string>
+    <string name="number0">0</string>
+    <string name="number1">1</string>
+    <string name="number2">2</string>
+    <string name="number3">3</string>
+    <string name="number4">4</string>
+    <string name="number5">5</string>
+    <string name="number6">6</string>
+    <string name="number7">7</string>
+    <string name="number8">8</string>
+    <string name="number9">9</string>
 
-    <string name="setup_screen_title">Set up ConnectN</string>
-    <string name="game_screen_title">Connect%d</string>
-
-    <string name="player1_name_label">Player 1</string>
-    <string name="player2_name_label">Player 2</string>
+    <string name="setup_screen_title">Set up Sweeper</string>
+    <string name="game_screen_title">Proto Sweeper</string>
     <string name="width_label">Width</string>
     <string name="height_label">Height</string>
-    <string name="n_label">N</string>
-    <string name="start_button_text">Start</string>
-    <string name="invalid_setup_text">Invalid board setup.</string>
-    <string name="to_move_text">to play</string>
-    <string name="winner_text">%s wins!</string>
-    <string name="player1_info_text">%1$s (%2$d)</string>
-    <string name="player2_info_text">(%2$d) %1$s</string>
+    <string name="mine_label">Mines</string>
+    <string name="start_button_text">Start Game</string>
+    <string name="invalid_setup_text">Invalid Sweeper setup.</string>
     <string name="new_game_text">New Game</string>
     <string name="back_setup_text">Change Setup</string>
-
-    <string name="player1_name_default">Chuchu</string>
-    <string name="player2_name_default">Xyz</string>
-    <string name="width_default">10</string>
+    <string name="to_mark">Mark</string>
+    <string name="valid_size">Width or height may not exceed twice of the other.</string>
+    <string name="valid_mines">Mine number may not exceed one and a half time of the maximum in width and height.</string>
+    <string name="width_default">8</string>
     <string name="height_default">8</string>
-    <string name="n_default">4</string>
+    <string name="mine_default">10</string>
 </resources>
