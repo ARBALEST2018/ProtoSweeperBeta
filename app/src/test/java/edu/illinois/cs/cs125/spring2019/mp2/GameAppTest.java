@@ -21,8 +21,6 @@ import org.robolectric.android.controller.ActivityController;
 
 import java.util.ArrayList;
 
-import edu.illinois.cs.cs125.spring2019.mp2.lib.ConnectN;
-
 /**
  * Test suite for the ConnectN app.
  * <p>
