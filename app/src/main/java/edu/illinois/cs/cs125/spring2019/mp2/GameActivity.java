@@ -108,7 +108,8 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         Intent intent = getIntent();
-        game = new TableAlpha(intent.getIntExtra("width", 0), intent.getIntExtra("height", 0), intent.getIntExtra("mines", 0));
+        game = new TableAlpha(intent.getIntExtra("height", 0),
+                intent.getIntExtra("width", 0), intent.getIntExtra("mines", 0));
         /*for (int i = 0; i < ; i++) {
             boolean temp = game.generateMine(random.nextInt(8), random.nextInt(8));
             if (temp) {
@@ -150,7 +151,8 @@ public class GameActivity extends AppCompatActivity {
      */
     void onReadyForSizing() {
         Log.i(TAG, String.format("Layout is %d by %d", gameContainer.getWidth(), gameContainer.getHeight()));
-        int bottomSpace = findViewById(R.id.game_control_container).getBottom() - findViewById(R.id.label_container).getTop();
+        int bottomSpace = findViewById(R.id.game_control_container).getBottom() - findViewById(R.id.label_container).
+                getTop();
         double horizontalConstraint = gameContainer.getWidth() / (double) game.getWidth();
         double verticalConstraint = (gameContainer.getHeight() - bottomSpace) / (double) game.getHeight();
         int slotSize = (int) Math.floor(Math.min(horizontalConstraint, verticalConstraint));
@@ -195,6 +197,7 @@ public class GameActivity extends AppCompatActivity {
         table.removeAllViews();
         findViewById(R.id.failure).setVisibility(View.GONE);
         findViewById(R.id.victory).setVisibility(View.GONE);
+        findViewById(R.id.to_mark).setBackgroundColor(Color.GREEN);
 
         table.setColumnCount(game.getWidth());
         table.setRowCount(game.getHeight());
@@ -218,6 +221,7 @@ public class GameActivity extends AppCompatActivity {
                 final int gameY = game.getHeight() - y - 1;
                 findViewById(R.id.to_mark).setOnClickListener(v -> {
                     toMark = true;
+                    findViewById(R.id.to_mark).setBackgroundColor(Color.RED);
                 });
                 cell.setOnClickListener(v -> {
                     if (toMark) {
@@ -239,6 +243,8 @@ public class GameActivity extends AppCompatActivity {
      */
     void slotLongClicked(final int x, final int y) {
         boolean b = game.changeLock(x, y);
+        toMark = false;
+        findViewById(R.id.to_mark).setBackgroundColor(Color.GREEN);
         updateDisplay();
     }
 
