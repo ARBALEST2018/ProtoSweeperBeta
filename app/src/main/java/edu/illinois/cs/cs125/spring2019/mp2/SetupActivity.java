@@ -70,12 +70,16 @@ public class SetupActivity extends AppCompatActivity {
     }
     /**
      * To get the text in editable text view.
+     * @param editor passed int
+     * @return the text in String
      */
     String getTextIn(final int editor) {
         return ((EditText) findViewById(editor)).getText().toString();
     }
     /**
      * To get integer in editable text view.
+     * @param editor passed int
+     * @return the text in int
      */
     private int getNumberIn(final int editor) {
         return Integer.parseInt(getTextIn(editor));
